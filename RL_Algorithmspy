@@ -1,0 +1,14 @@
+
+
+class RL_Algorithm:
+    def __init__(self):
+        pass
+
+    def Update():
+        pass
+
+class Q_Learning(RL_Algorithm):
+    pass
+
+class SARSA(RL_Algorithm):
+    pass
