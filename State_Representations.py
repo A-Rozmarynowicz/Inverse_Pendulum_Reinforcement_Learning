@@ -24,6 +24,9 @@ class State_Representation:
     def Get_Observation_Cardinality(self) -> tuple:
         return self.observation_cardinality
 
+    def Write_To_File(self, filename : str) -> None:
+        return
+
 class Q_Table(State_Representation):
     def __init__(self, observation_cardinality, observation_lower_limits,
                  observation_upper_limits, action_cardinality : tuple):
@@ -31,7 +34,6 @@ class Q_Table(State_Representation):
                           observation_upper_limits, action_cardinality)
         self.bin_edges = self.Create_Observation_Bins(observation_cardinality, observation_lower_limits, observation_upper_limits)
         self.q_table = np.zeros(observation_cardinality + action_cardinality)
-
 
     def Create_Observation_Bins(self, observation_cardinality : tuple, observation_lower_limits : tuple, observation_upper_limits : tuple):
         return [

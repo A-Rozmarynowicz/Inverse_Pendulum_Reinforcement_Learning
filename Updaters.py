@@ -19,10 +19,5 @@ class Q_Learning(Updater):
             )
         state_representation.Increase_Value(current_state + (action_idx,), delta)
 
-        # best_next = np.max(state_representation[next_state])
-        # state_representation[current_state + (action_idx,)] += self.alpha * (
-        #     reward + self.gamma * best_next - state_representation[current_state + (action_idx,)]
-        #     )
-
 class SARSA(Updater):
     pass

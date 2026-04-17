@@ -10,7 +10,7 @@ env = gym.make("Pendulum-v1")
 class classic_Q_Learning(RL_Algorithm):
     def __init__(self):
         super().__init__()
-        self.strategy = Epsilon_Decay(epsilon = 1.0, epsilon_decay = 0.995, epsilon_min = 0.05)
+        self.strategy = Epsilon_Decay(epsilon = 1.0, epsilon_decay = 0.9995, epsilon_min = 0.05)
         self.updater = Q_Learning(alpha=0.1, gamma=0.99)
 
 QL = classic_Q_Learning()
