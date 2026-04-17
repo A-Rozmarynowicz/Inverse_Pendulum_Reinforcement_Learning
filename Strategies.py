@@ -7,7 +7,7 @@ class Exploration_Strategy:
     def Get_Action_Index(self, state_representation : State_Representation) -> int:
         return 0
 
-    def Update(self) -> None:
+    def Episode_Ended(self) -> None:
         return
 
 class Epsilon_Greedy(Exploration_Strategy):

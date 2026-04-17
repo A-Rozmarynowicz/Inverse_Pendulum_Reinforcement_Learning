@@ -13,10 +13,16 @@ class Q_Learning(Updater):
     def Update(self, state_representation : State_Representations.State_Representation, current_state : tuple,
                 next_state : tuple, action_idx : int, reward : float):
 
-        best_next = np.max(state_representation[next_state])
-        state_representation[current_state + (action_idx,)] += self.alpha * (
-            reward + self.gamma * best_next - state_representation[current_state + (action_idx,)]
+        best_next = state_representation.Get_Max_Value(next_state)
+        delta : float = self.alpha * (
+            reward + self.gamma * best_next - state_representation.Get_Value_From_State(current_state + (action_idx,))
             )
+        state_representation.Increase_Value(current_state + (action_idx,), delta)
+
+        # best_next = np.max(state_representation[next_state])
+        # state_representation[current_state + (action_idx,)] += self.alpha * (
+        #     reward + self.gamma * best_next - state_representation[current_state + (action_idx,)]
+        #     )
 
 class SARSA(Updater):
     pass

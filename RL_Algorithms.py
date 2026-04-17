@@ -12,15 +12,23 @@ class RL_Algorithm:
         action_index : int = self.strategy.Get_Action_Index(state_representation)
         action : np.array = np.array(action_space[action_index])
 
-        next_obs, reward, terminated, truncated, _ = environment.step(action)
+        next_obs, reward, terminated, truncated, _ = environment.step([action.item()])
         next_state = state_representation.Observation_To_State(next_obs)
 
-        self.Update(current_state, next_state, action_index, reward)
+        self.Update(state_representation, current_state, next_state, action_index, reward)
 
         return action_index, next_state, reward, terminated, truncated
 
-    def Update(self, current_state : tuple, next_state : float, action_index : int, reward : float):
-        self.updater.Update(self.state_representation, current_state, next_state, action_index, reward)
-        self.strategy.Update()
+    def Update(self, state_representation : State_Representation, current_state : tuple, next_state : float, action_index : int, reward : float):
+        self.updater.Update(state_representation, current_state, next_state, action_index, reward)
+
+    def Episode_Ended(self):
+        self.strategy.Episode_Ended()
+
+    def Get_Strategy(self) -> Strategies.Exploration_Strategy:
+        return self.strategy
+
+    def Get_Updater(self) -> Updaters.Updater:
+        return self.updater
 
 
