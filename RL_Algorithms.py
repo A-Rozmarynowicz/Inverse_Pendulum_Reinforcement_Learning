@@ -17,7 +17,7 @@ class RL_Algorithm:
         next_obs, reward, terminated, truncated, _ = environment.step([action.item()])
         next_state = self.state_representation.Observation_To_State(next_obs)
 
-        self.Update(self.state_representation, current_state, next_state, action_index, reward)
+        self.Update(current_state, next_state, action_index, reward)
 
         return action_index, next_state, reward, terminated, truncated
 
@@ -40,6 +40,9 @@ class RL_Algorithm:
 
     def Set_State_Representation(self, state_repr : State_Representation) -> None:
         self.state_representation = state_repr
+
+    def Get_State_Representation(self) -> State_Representation:
+        return self.state_representation
 
     def Get_ID(self) -> int:
         return self.ID

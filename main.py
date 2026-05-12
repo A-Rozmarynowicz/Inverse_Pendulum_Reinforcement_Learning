@@ -16,7 +16,6 @@ action_space = np.linspace(-2, 2, n_actions)
 
 episodes = 10000
 
-
 class classic_Q_Learning(RL_Algorithm):
     def __init__(self, ID, alpha : float, gamma : float, eps_decay : float, eps_min : float):
         super().__init__()
@@ -27,13 +26,13 @@ class classic_Q_Learning(RL_Algorithm):
         # self.strategy = Epsilon_Decay(epsilon = 1.0, epsilon_decay = 0.9995, epsilon_min = eps_min)
 
 class classic_SARSA(RL_Algorithm):
-    def __init__(self, alpha : float, gamma : float, eps_decay : float, eps_min : float):
+    def __init__(self, ID, alpha : float, gamma : float, eps_decay : float, eps_min : float):
         super().__init__()
         self.strategy = Epsilon_Decay(epsilon = 1.0, epsilon_decay = eps_min, epsilon_min = eps_min)
         self.updater = SARSA(alpha=alpha, gamma=gamma)
 
-gammas = [0.9, 0.99]
-alphas = [0.01, 0.1]
+gammas = [0.99, 0.9]
+alphas = [0.1, 0.01]
 eps_decays = [0.9995, 0.9999]
 eps_mins = [0.05]
 
@@ -43,7 +42,7 @@ i = 0
 for gamma in gammas:
     for alpha in alphas:
         for eps_decay in eps_decays:
-            for eps_min in eps_min:
+            for eps_min in eps_mins:
                 q = classic_Q_Learning(ID=i, alpha=alpha, gamma=gamma, eps_decay=eps_decay, eps_min=eps_min)
                 algoritms[i] = q
                 i += 1
@@ -65,7 +64,7 @@ for alg in algoritms.values():
 
         while not done:
 
-            action_index, next_state, reward, terminated, truncated = alg.Step(q_table, action_space, state, env)
+            action_index, next_state, reward, terminated, truncated = alg.Step(action_space, state, env)
 
             state = next_state
             total_reward += reward
@@ -75,14 +74,14 @@ for alg in algoritms.values():
         alg.Episode_Ended()
 
         if (episode + 1) % 5000 == 0:
-            print(f"Epizod {episode+1}, total reward: {total_reward:.2f}, epsilon: {QL.Get_Strategy().Get_Epsilon():.2f}")
+            print(f"Epizod {episode+1}, total reward: {total_reward:.2f}, epsilon: {alg.Get_Strategy().Get_Epsilon():.2f}")
 
     print(f"Trening zakończony! Total reward: {total_reward:.2f}")
 
 env = gym.make("Pendulum-v1", render_mode = "human")
 
 obs, _ = env.reset()
-state = q_table.Observation_To_State(obs)
+state =  list(algoritms.values())[-1].Get_State_Representation().Observation_To_State(obs)
 strategy = Greedy()
 eval_rew = 0
 
