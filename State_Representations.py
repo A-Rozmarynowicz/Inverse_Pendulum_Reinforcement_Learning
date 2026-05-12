@@ -51,7 +51,10 @@ class Q_Table(State_Representation):
         return self.q_table[state]
 
     def Increase_Value(self, state : tuple, increase : float) -> None:
-        self.q_table[state] += increase
+        try:
+            self.q_table[state] += increase
+        except:
+            pass
 
     def Get_Max_Value(self, state : tuple) -> float:
         return np.max(self.q_table[state])

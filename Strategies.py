@@ -13,7 +13,7 @@ class Exploration_Strategy:
 
 class Greedy(Exploration_Strategy):
     def Get_Action_Index(self, state_representation, state):
-        return np.argmax(state_representation.Get_Value_From_State(state))
+        return np.argmax(state_representation.Get_Value_From_State(state)).item()
 
 class Epsilon_Greedy(Exploration_Strategy):
     def __init__(self, epsilon : float):
@@ -22,9 +22,9 @@ class Epsilon_Greedy(Exploration_Strategy):
 
     def Get_Action_Index(self, state_representation : State_Representation, state : tuple):
         if np.random.random() < self.epsilon:
-            action_idx = np.random.randint(state_representation.Get_Action_Cardinality())
+            action_idx = np.random.randint(state_representation.Get_Action_Cardinality()).item()
         else:
-            action_idx = np.argmax(state_representation.Get_Value_From_State(state))
+            action_idx = np.argmax(state_representation.Get_Value_From_State(state)).item()
         return action_idx
 
     def Get_Epsilon(self) -> float:
