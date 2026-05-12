@@ -20,7 +20,12 @@ class RL_Algorithm:
         return action_index, next_state, reward, terminated, truncated
 
     def Update(self, state_representation : State_Representation, current_state : tuple, next_state : float, action_index : int, reward : float):
-        self.updater.Update(self.strategy, current_state, next_state, action_index, reward)
+        self.updater.Update(strategy=self.strategy,
+                            state_representation=state_representation,
+                            current_state=current_state,
+                            next_state=next_state,
+                            action_idx=action_index,
+                            reward=reward)
 
     def Episode_Ended(self):
         self.strategy.Episode_Ended()

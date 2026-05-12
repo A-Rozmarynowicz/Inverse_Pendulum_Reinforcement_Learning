@@ -7,10 +7,10 @@ class Updater:
         self.alpha = alpha
         self.gamma = gamma
 
-    def Update(self, state_representation : State_Representation):
+    def Update(self, strategy : Exploration_Strategy, state_representation : State_Representation):
         pass
 
-    def Select_Action_Index(self, strategy : Exploration_Strategy, state_representation : State_Representation, current_state : int, strategy : Exploration_Strategy) -> int:
+    def Select_Action_Index(self, state_representation : State_Representation, current_state : int, strategy : Exploration_Strategy) -> int:
         return 0
 
 class Q_Learning(Updater):
