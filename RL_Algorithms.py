@@ -4,24 +4,26 @@ import Updaters
 import numpy as np
 
 class RL_Algorithm:
-    def __init__(self):
+    def __init__(self, ID : int = 0):
         self.strategy : Strategies.Exploration_Strategy
         self.updater : Updaters.Updater
+        self.ID = ID
+        self.state_representation : State_Representation = None
 
-    def Step(self, state_representation : State_Representation, action_space : np.array, current_state : tuple, environment):
-        action_index : int = self.updater.Select_Action_Index(state_representation=state_representation, current_state=current_state, strategy=self.strategy)
+    def Step(self, action_space : np.array, current_state : tuple, environment):
+        action_index : int = self.updater.Select_Action_Index(state_representation=self.state_representation, current_state=current_state, strategy=self.strategy)
         action : np.array = np.array(action_space[action_index])
 
         next_obs, reward, terminated, truncated, _ = environment.step([action.item()])
-        next_state = state_representation.Observation_To_State(next_obs)
+        next_state = self.state_representation.Observation_To_State(next_obs)
 
-        self.Update(state_representation, current_state, next_state, action_index, reward)
+        self.Update(self.state_representation, current_state, next_state, action_index, reward)
 
         return action_index, next_state, reward, terminated, truncated
 
-    def Update(self, state_representation : State_Representation, current_state : tuple, next_state : float, action_index : int, reward : float):
+    def Update(self, current_state : tuple, next_state : float, action_index : int, reward : float):
         self.updater.Update(strategy=self.strategy,
-                            state_representation=state_representation,
+                            state_representation=self.state_representation,
                             current_state=current_state,
                             next_state=next_state,
                             action_idx=action_index,
@@ -36,4 +38,8 @@ class RL_Algorithm:
     def Get_Updater(self) -> Updaters.Updater:
         return self.updater
 
+    def Set_State_Representation(self, state_repr : State_Representation) -> None:
+        self.state_representation = state_repr
 
+    def Get_ID(self) -> int:
+        return self.ID

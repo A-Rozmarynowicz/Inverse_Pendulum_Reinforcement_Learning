@@ -38,7 +38,7 @@ class SARSA(Updater):
 
         delta : float = self.alpha * (
             reward
-            + self.gamma * state_representation.Get_Value_From_State(current_state + (self.next_action,))
+            + self.gamma * state_representation.Get_Value_From_State(next_state + (self.next_action,))
             - state_representation.Get_Value_From_State(current_state + (action_idx,))
             )
         state_representation.Increase_Value(current_state + (action_idx,), delta)
