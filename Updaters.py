@@ -13,6 +13,9 @@ class Updater:
     def Select_Action_Index(self, state_representation : State_Representation, current_state : int, strategy : Exploration_Strategy) -> int:
         return 0
 
+    def Episode_Ended(self) -> None:
+        pass
+
 class Q_Learning(Updater):
     def Update(self, strategy : Exploration_Strategy,  state_representation : State_Representation, current_state : tuple,
                 next_state : tuple, action_idx : int, reward : float):
@@ -26,6 +29,9 @@ class Q_Learning(Updater):
     def Select_Action_Index(self, state_representation : State_Representation, current_state : int, strategy : Exploration_Strategy) -> int:
         return strategy.Get_Action_Index(state_representation, current_state)
 
+    def __str__(self):
+        return f"Q-Learning: gamma={self.gamma}, alpha={self.alpha}"
+
 class SARSA(Updater):
     def __init__(self, alpha, gamma):
         super().__init__(alpha, gamma)
@@ -34,7 +40,7 @@ class SARSA(Updater):
     def Update(self, strategy : Exploration_Strategy, state_representation : State_Representation, current_state : tuple,
                 next_state : tuple, action_idx : int, reward : float):
 
-        self.next_action = strategy.Get_Action_Index(state_representation, current_state)
+        self.next_action = strategy.Get_Action_Index(state_representation, next_state)
 
         delta : float = self.alpha * (
             reward
@@ -47,3 +53,9 @@ class SARSA(Updater):
         if self.next_action == -1:
             return strategy.Get_Action_Index(state_representation, current_state)
         return self.next_action
+
+    def __str__(self):
+        return f"SARSA: gamma={self.gamma}, alpha={self.alpha}"
+
+    def Episode_Ended(self):
+        self.next_action = -1

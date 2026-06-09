@@ -31,6 +31,7 @@ class RL_Algorithm:
 
     def Episode_Ended(self):
         self.strategy.Episode_Ended()
+        self.updater.Episode_Ended()
 
     def Get_Strategy(self) -> Strategies.Exploration_Strategy:
         return self.strategy
@@ -46,3 +47,6 @@ class RL_Algorithm:
 
     def Get_ID(self) -> int:
         return self.ID
+
+    def __str__(self):
+        return str(self.updater) + " | " + str(self.strategy)
